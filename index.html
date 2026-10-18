@@ -46,9 +46,12 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 <button class="rank-filter standings-filter" data-league="m3" type="button">Männer 3</button>
 <button class="rank-filter standings-filter" data-league="a" type="button">A-Jugend</button>
 </div>
-<div style="overflow-x:auto"><table id="standings-table"><thead><tr><th>Team / Gegner</th><th>Sp.</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Diff.</th><th>Punkte</th></tr></thead><tbody id="standings-body"></tbody></table></div>
-<p class="section-desc" id="standings-note" style="margin-top:12px"></p>
-<p class="section-desc">Die Bilanz eurer Mannschaft wird aus den erfassten Saisonergebnissen berechnet. Für Gegner zeigt die Tabelle die bestätigten direkten Duelle; deren komplette Ligabilanz und Platzierung wird nur ergänzt, wenn eine aktuelle offizielle Gesamttabelle zuverlässig verfügbar ist. Keine Gegner-Punkte oder Tabellenplätze werden geschätzt.</p>
+<div class="standings-block"><h3 id="standings-heading">Offizielle Ligatabelle · Männer 1</h3><p class="section-desc">Die Tabellenansicht versucht zuerst, die offiziellen Daten aus Handball4all zu laden.</p>
+<div style="overflow-x:auto"><table id="standings-table"><thead><tr><th>Pl.</th><th>Mannschaft</th><th>Sp.</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Diff.</th><th>Punkte</th></tr></thead><tbody id="standings-body"></tbody></table></div>
+<p class="section-desc" id="standings-note" style="margin-top:12px"></p></div>
+<div class="standings-block" style="margin-top:18px"><h3>Bisherige Ergebnisse im direkten Vergleich</h3><p class="section-desc">Diese Übersicht ist bewusst getrennt von der Ligatabelle: Sie zeigt nur die Begegnungen der ausgewählten Mannschaft und ist keine Rangliste der Gegner.</p>
+<div style="overflow-x:auto"><table id="duels-table"><thead><tr><th>Gegner</th><th>Ergebnis</th><th>Bilanz</th></tr></thead><tbody id="duels-body"></tbody></table></div></div>
+<p class="section-desc">Offizielle Quellen: <a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Männer 1 · Handball4all</a> · <a href="https://www.him-spvgg.de/aktive/mannschaft-m2-2026-27" target="_blank" rel="noopener">Männer 2</a> · <a href="https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27" target="_blank" rel="noopener">Männer 3</a> · <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">JSG Balingen-Weilstetten A-Jugend</a>.</p>
 <div class="sources" style="margin-top:12px">
 <div class="source-box"><strong>Männer 1</strong><a href="https://www.him-spvgg.de/aktive/mannschaft-m1-2026-27" target="_blank" rel="noopener">Offizielle HIM-Seite ↗</a></div>
 <div class="source-box"><strong>Männer 2</strong><a href="https://www.him-spvgg.de/aktive/mannschaft-m2-2026-27" target="_blank" rel="noopener">Offizielle HIM-Seite ↗</a></div>
@@ -127,9 +130,12 @@ a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:145,against:164,points:"4:6",url:"ht
 const handball4allLeagues={m1:{org:216,id:161146}};
 async function showStandings(key){
  const d=standingsData[key],body=document.getElementById("standings-body"),note=document.getElementById("standings-note");
+ const heading=document.getElementById("standings-heading");
+ const duels=document.getElementById("duels-body");
+ heading.textContent="Offizielle Ligatabelle · "+d.name;
  document.querySelectorAll(".standings-filter").forEach(b=>b.classList.toggle("active",b.dataset.league===key));
- body.innerHTML='<tr><td colspan="8">Offizielle Tabelle wird geladen …</td></tr>';
- note.textContent="Quelle: Handball4all · Saison 2026/27";
+ body.innerHTML='<tr><td colspan="9">Offizielle Tabelle wird geladen …</td></tr>';
+ note.textContent="Quelle: offizieller Ergebnisdienst";
  const league=handball4allLeagues[key];
  if(league){
   const today=new Date().toISOString().slice(0,10);
@@ -139,30 +145,39 @@ async function showStandings(key){
    if(!response.ok) throw new Error("HTTP "+response.status);
    const payload=await response.json();
    const root=Array.isArray(payload)?payload[0]:payload;
-   const scores=root?.content?.score||root?.dataList||root?.content?.dataList;
-   if(!Array.isArray(scores)||!scores.length) throw new Error("Keine Tabellendaten im erwarteten Format");
-   body.innerHTML=scores.map((team,index)=>{
-    const rank=team.tabScore??index+1;
-    const name=team.tabTeamname??team.teamname??"Unbekannte Mannschaft";
-    const played=team.numPlayedGames??"–",won=team.numWonGames??"–",draw=team.numEqualGames??"–",lost=team.numLostGames??"–";
-    const goalsFor=team.numGoalsShot??"–",goalsAgainst=team.numGoalsGot??"–";
-    const diff=Number(goalsFor)-Number(goalsAgainst);
-    const points=`${team.pointsPlus??"–"}:${team.pointsMinus??"–"}`;
-    const isMossingen=/mössingen/i.test(name);
-    return `<tr${isMossingen?' class="highlight-row"':""}><td><strong>${rank}.</strong> ${name}${isMossingen?' <span class="rank-team">· eure Mannschaft</span>':""}</td><td>${played}</td><td>${won}</td><td>${draw}</td><td>${lost}</td><td>${goalsFor}:${goalsAgainst}</td><td>${Number.isFinite(diff)?(diff>0?"+":"")+diff:"–"}</td><td>${points}</td></tr>`;
-   }).join("");
-   note.innerHTML='Live-Tabelle aus Handball4all geladen. <a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Offizielle Ligaseite ↗</a>';
-   return;
+   const candidates=root?.content?.score||root?.dataList||root?.content?.dataList||root?.teams;
+   if(!Array.isArray(candidates)||!candidates.length) throw new Error("Tabellenformat nicht erkannt");
+   const rows=candidates.map((team,index)=>{
+    const rank=team.tabScore??team.rank??index+1;
+    const name=team.tabTeamname??team.teamname??team.name??"Unbekannte Mannschaft";
+    const played=team.numPlayedGames??team.played??"–",won=team.numWonGames??team.won??"–",draw=team.numEqualGames??team.draw??"–",lost=team.numLostGames??team.lost??"–";
+    const gf=team.numGoalsShot??team.goalsFor??"–",ga=team.numGoalsGot??team.goalsAgainst??"–";
+    const diff=Number(gf)-Number(ga),points=team.pointsPlus!=null&&team.pointsMinus!=null?`${team.pointsPlus}:${team.pointsMinus}`:(team.points??"–");
+    const highlight=/spvgg mössingen/i.test(name);
+    return `<tr${highlight?' class="highlight-row"':""}><td>${rank}</td><td><strong>${name}</strong>${highlight?' <span class="rank-team">· eure Mannschaft</span>':""}</td><td>${played}</td><td>${won}</td><td>${draw}</td><td>${lost}</td><td>${gf}:${ga}</td><td>${Number.isFinite(diff)?(diff>0?"+":"")+diff:"–"}</td><td>${points}</td></tr>`;
+   });
+   body.innerHTML=rows.join("");
+   note.innerHTML='Live-Tabelle geladen. <a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Offizielle Ligaseite öffnen ↗</a>';
   }catch(error){
    console.warn("Handball4all-Tabelle konnte nicht geladen werden:",error);
-   note.innerHTML='Die Live-Tabelle konnte nicht automatisch geladen werden (möglicherweise blockiert der Anbieter den Zugriff von GitHub Pages). <a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Offizielle Tabelle öffnen ↗</a>';
+   body.innerHTML='<tr><td colspan="9">Die Live-Tabelle konnte nicht geladen werden. Bitte die offizielle Ligaseite öffnen.</td></tr>';
+   note.innerHTML='<a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Offizielle Tabelle bei Handball4all öffnen ↗</a>';
   }
+ }else{
+  body.innerHTML='<tr><td colspan="9">Die offizielle vollständige Tabelle dieser Liga ist noch nicht automatisch angebunden. Unten findest du die bisher bestätigte Mannschaftsbilanz; die gegnerischen Tabellenplätze werden nicht geschätzt.</td></tr>';
+  const diff=d.for-d.against;
+  body.insertAdjacentHTML("beforeend",`<tr class="highlight-row"><td>–</td><td><strong>${d.name}</strong></td><td>${d.played}</td><td>${d.w}</td><td>${d.d}</td><td>${d.l}</td><td>${d.for}:${d.against}</td><td>${diff>0?"+":""}${diff}</td><td>${d.points}</td></tr>`);
+  note.textContent="Mannschaftsbilanz aus den bisher eingetragenen offiziellen Ergebnissen; kein vollständiger Tabellenstand.";
  }
- const diff=d.for-d.against;
- const rows=[`<tr><td><strong>${d.name}</strong> <span class="team-pill ${key}-pill">${key==="a"?"A-Jugend":key.toUpperCase()}</span></td><td>${d.played}</td><td>${d.w}</td><td>${d.d}</td><td>${d.l}</td><td>${d.for}:${d.against}</td><td>${diff>0?"+":""}${diff}</td><td>${d.points}</td></tr>`];
- d.opponents.forEach(o=>{const ownGoals=o[1],oppGoals=o[2];const won=ownGoals>oppGoals,draw=ownGoals===oppGoals;rows.push(`<tr><td>${o[0]} <span class="rank-team">· direktes Duell</span></td><td>1</td><td>${won?1:0}</td><td>${draw?1:0}</td><td>${won||draw?0:1}</td><td>${ownGoals}:${oppGoals}</td><td>${ownGoals-oppGoals>0?"+":""}${ownGoals-oppGoals}</td><td>${won?"2":draw?"1":"0"}:${won||draw?"0":"2"}</td></tr>`);});
- body.innerHTML=rows.join("");
- note.textContent+=(note.textContent?" ":"")+"Die angezeigten Ersatzdaten sind die bisher erfasste Mannschaftsbilanz und direkte Duelle, keine vollständige Ligatabelle.";
+ const trackedName=key==="a"?"JSG Balingen-Weilstetten":key==="m1"?"SpVgg Mössingen":key==="m2"?"SpVgg Mössingen 2":"SpVgg Mössingen 3";
+ const games=matches.filter(m=>m.team===key);
+ duels.innerHTML=games.map(m=>{
+  const isHome=m.home===trackedName;
+  const own=isHome?m.hs:m.as,opp=isHome?m.as:m.hs;
+  const opponent=isHome?m.away:m.home;
+  const result=own>opp?"Sieg":own<opp?"Niederlage":"Unentschieden";
+  return `<tr><td>${opponent}</td><td><a href="${m.url}" target="_blank" rel="noopener">${m.hs}:${m.as} ↗</a></td><td>${result}</td></tr>`;
+ }).join("")||'<tr><td colspan="3">Noch keine Ergebnisse eingetragen.</td></tr>';
 }
 document.querySelectorAll(".standings-filter").forEach(b=>b.addEventListener("click",()=>showStandings(b.dataset.league)));
 showStandings("m1");
