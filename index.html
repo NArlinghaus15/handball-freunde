@@ -124,13 +124,45 @@ m3:{name:"Männer 3",played:3,w:2,d:1,l:0,for:106,against:87,points:"5:1",url:"h
 a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:145,against:164,points:"4:6",url:"https://www.handball.net/team/86821",opponents:[
 ["Frisch Auf Göppingen",20,30],["JANO Filder",33,35],["HC Erlangen",36,35],["DJK SF Budenheim",30,40],["HSG Dutenhofen/Münchholzhausen",26,24]]}
 };
-function showStandings(key){
- const d=standingsData[key],body=document.getElementById("standings-body"),diff=d.for-d.against;
- const rows=[`<tr><td><strong>${d.name}</strong> <span class="team-pill ${key}-pill">${key==="a"?"A-Jugend":key.toUpperCase()}</span></td><td>${d.played}</td><td>${d.w}</td><td>${d.d}</td><td>${d.l}</td><td>${d.for}:${d.against}</td><td>${diff>0?"+":""}${diff}</td><td>${d.points}</td></tr>`];
- d.opponents.forEach(o=>{const ownGoals=key==="a"?o[1]:o[1],oppGoals=o[2];const won=ownGoals>oppGoals,draw=ownGoals===oppGoals;rows.push(`<tr><td>${o[0]} <span class="rank-team">· direktes Duell</span></td><td>1</td><td>${won?1:0}</td><td>${draw?1:0}</td><td>${won||draw?0:1}</td><td>${ownGoals}:${oppGoals}</td><td>${ownGoals-oppGoals>0?"+":""}${ownGoals-oppGoals}</td><td>${won?"2":draw?"1":"0"}: ${won||draw?"0":"2"}</td></tr>`);});
- body.innerHTML=rows.join("");
- document.getElementById("standings-note").textContent="Die erste Zeile zeigt die Gesamtbilanz von "+d.name+". Die weiteren Zeilen zeigen nur das bisherige direkte Duell mit jedem Gegner, nicht dessen gesamte Liga-Bilanz. Vollständige Platzierungen der übrigen Ligateams werden ergänzt, sobald die aktuelle offizielle Tabelle zuverlässig abrufbar ist.";
+const handball4allLeagues={m1:{org:216,id:161146}};
+async function showStandings(key){
+ const d=standingsData[key],body=document.getElementById("standings-body"),note=document.getElementById("standings-note");
  document.querySelectorAll(".standings-filter").forEach(b=>b.classList.toggle("active",b.dataset.league===key));
+ body.innerHTML='<tr><td colspan="8">Offizielle Tabelle wird geladen …</td></tr>';
+ note.textContent="Quelle: Handball4all · Saison 2026/27";
+ const league=handball4allLeagues[key];
+ if(league){
+  const today=new Date().toISOString().slice(0,10);
+  const apiUrl=`https://spo.handball4all.de/service/if_g_json.php?ca=0&cl=${league.id}&cmd=ps&do=${today}&og=${league.org}`;
+  try{
+   const response=await fetch(apiUrl,{headers:{Accept:"application/json"}});
+   if(!response.ok) throw new Error("HTTP "+response.status);
+   const payload=await response.json();
+   const root=Array.isArray(payload)?payload[0]:payload;
+   const scores=root?.content?.score||root?.dataList||root?.content?.dataList;
+   if(!Array.isArray(scores)||!scores.length) throw new Error("Keine Tabellendaten im erwarteten Format");
+   body.innerHTML=scores.map((team,index)=>{
+    const rank=team.tabScore??index+1;
+    const name=team.tabTeamname??team.teamname??"Unbekannte Mannschaft";
+    const played=team.numPlayedGames??"–",won=team.numWonGames??"–",draw=team.numEqualGames??"–",lost=team.numLostGames??"–";
+    const goalsFor=team.numGoalsShot??"–",goalsAgainst=team.numGoalsGot??"–";
+    const diff=Number(goalsFor)-Number(goalsAgainst);
+    const points=`${team.pointsPlus??"–"}:${team.pointsMinus??"–"}`;
+    const isMossingen=/mössingen/i.test(name);
+    return `<tr${isMossingen?' class="highlight-row"':""}><td><strong>${rank}.</strong> ${name}${isMossingen?' <span class="rank-team">· eure Mannschaft</span>':""}</td><td>${played}</td><td>${won}</td><td>${draw}</td><td>${lost}</td><td>${goalsFor}:${goalsAgainst}</td><td>${Number.isFinite(diff)?(diff>0?"+":"")+diff:"–"}</td><td>${points}</td></tr>`;
+   }).join("");
+   note.innerHTML='Live-Tabelle aus Handball4all geladen. <a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Offizielle Ligaseite ↗</a>';
+   return;
+  }catch(error){
+   console.warn("Handball4all-Tabelle konnte nicht geladen werden:",error);
+   note.innerHTML='Die Live-Tabelle konnte nicht automatisch geladen werden (möglicherweise blockiert der Anbieter den Zugriff von GitHub Pages). <a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Offizielle Tabelle öffnen ↗</a>';
+  }
+ }
+ const diff=d.for-d.against;
+ const rows=[`<tr><td><strong>${d.name}</strong> <span class="team-pill ${key}-pill">${key==="a"?"A-Jugend":key.toUpperCase()}</span></td><td>${d.played}</td><td>${d.w}</td><td>${d.d}</td><td>${d.l}</td><td>${d.for}:${d.against}</td><td>${diff>0?"+":""}${diff}</td><td>${d.points}</td></tr>`];
+ d.opponents.forEach(o=>{const ownGoals=o[1],oppGoals=o[2];const won=ownGoals>oppGoals,draw=ownGoals===oppGoals;rows.push(`<tr><td>${o[0]} <span class="rank-team">· direktes Duell</span></td><td>1</td><td>${won?1:0}</td><td>${draw?1:0}</td><td>${won||draw?0:1}</td><td>${ownGoals}:${oppGoals}</td><td>${ownGoals-oppGoals>0?"+":""}${ownGoals-oppGoals}</td><td>${won?"2":draw?"1":"0"}:${won||draw?"0":"2"}</td></tr>`);});
+ body.innerHTML=rows.join("");
+ note.textContent+=(note.textContent?" ":"")+"Die angezeigten Ersatzdaten sind die bisher erfasste Mannschaftsbilanz und direkte Duelle, keine vollständige Ligatabelle.";
 }
 document.querySelectorAll(".standings-filter").forEach(b=>b.addEventListener("click",()=>showStandings(b.dataset.league)));
 showStandings("m1");
