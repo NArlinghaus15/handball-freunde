@@ -149,7 +149,7 @@ async function showStandings(key){
    const candidates=root?.content?.score||payload?.[0]?.content?.score||root?.dataList||root?.content?.dataList||root?.teams;
    if(!Array.isArray(candidates)||!candidates.length) throw new Error("Tabellenformat nicht erkannt");
    const rows=candidates.map((team,index)=>{
-    const rank=team.tabScore??team.rank??team.position??index+1;
+    const rank=team.tabScore||team.rank||team.position||index+1;
     const name=team.tabTeamname??team.teamname??team.name??"Unbekannte Mannschaft";
     const played=team.numPlayedGames??team.played??"–",won=team.numWonGames??team.won??"–",draw=team.numEqualGames??team.draw??"–",lost=team.numLostGames??team.lost??"–";
     const gf=team.numGoalsShot??team.goalsFor??"–",ga=team.numGoalsGot??team.goalsAgainst??"–";
