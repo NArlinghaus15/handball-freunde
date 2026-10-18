@@ -64,7 +64,7 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 <button class="rank-filter" data-stat="two" type="button">⏱ 2-Minuten</button>
 <button class="rank-filter" data-stat="cards" type="button">🟨 Karten</button>
 </div>
-<p class="section-desc" id="rank-note">Tore aus den bisher zuverlässig auswertbaren Spielberichten der Saison 2026/27. Ein Strich bedeutet, dass die Zahl noch nicht bestätigt ist.</p>
+<p class="section-desc" id="rank-note">Tore aus offiziellen Spielberichten der Saison 2026/27. Ein Strich bedeutet, dass kein belastbarer Wert vorliegt; die Zahlen sind keine vollständige Saisonstatistik, solange nicht alle Torschützenlisten vorliegen.</p>
 <div style="overflow-x:auto"><table id="ranking-table"><thead><tr><th>Rang</th><th>Spieler</th><th>Teams</th><th id="rank-value-heading">Tore</th></tr></thead><tbody>
 <tr data-goals="1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Florian</td><td><span class="team-pill m1-pill">M1: 1</span><div class="rank-team"><span class="team-pill a-pill">A-Jugend: –</span></div></td><td class="rank-value">1</td></tr>
 <tr data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Lars</td><td><span class="team-pill m1-pill">Männer 1</span></td><td class="rank-value">–</td></tr>
@@ -111,7 +111,7 @@ function sortRankings(stat){
  });
  rows.forEach((row,i)=>{body.appendChild(row);row.querySelector(".rank-position").textContent=Number(row.dataset[stat])<0?"–":String(i+1);row.querySelector(".rank-value").textContent=Number(row.dataset[stat])<0?"–":(stat==="goals"&&row.cells[1].textContent==="Manuel"?"4+":row.dataset[stat]);row.querySelector(".rank-value").classList.toggle("best",Number(row.dataset[stat])>=0&&i===0);});
  document.getElementById("rank-value-heading").textContent=statLabels[stat];
- document.getElementById("rank-note").textContent=stat==="goals"?"Tore aus den bisher zuverlässig auswertbaren Spielberichten. Manuel hat bei Männer 3 mindestens vier bestätigte Tore aus dem online auswertbaren Bericht KW 38; die übrigen Saisonberichte liefern online derzeit keine zuverlässig auslesbare Torschützenliste.":stat==="two"?"Nachweisbare 2-Minuten-Strafen. Ein Strich bedeutet: noch nicht verlässlich bestätigt.":"Karten (gelb/rot) aus verlässlich auswertbaren Spielberichten. Ein Strich bedeutet: noch nicht verlässlich bestätigt.";
+ document.getElementById("rank-note").textContent=stat==="goals"?"Tore aus den bisher zuverlässig auswertbaren Spielberichten. Manuel: mindestens 4 bestätigte Tore für Männer 3 (KW 38). Elias: 3 bestätigte Tore für Männer 2 (KW 39 und KW 40). Florian: 1 bestätigtes Tor für Männer 1 (KW 39). Für die übrigen Team-/Spieler-Kombinationen ist in den ausgewerteten aktuellen Berichten kein sicherer Gesamtwert belegbar.":stat==="two"?"Nachweisbare 2-Minuten-Strafen. Ein Strich bedeutet: noch nicht verlässlich bestätigt.":"Karten (gelb/rot) aus verlässlich auswertbaren Spielberichten. Ein Strich bedeutet: noch nicht verlässlich bestätigt.";
  document.querySelectorAll(".rank-filter").forEach(b=>b.classList.toggle("active",b.dataset.stat===stat));
 }
 document.querySelectorAll(".rank-filter").forEach(b=>b.addEventListener("click",()=>sortRankings(b.dataset.stat)));
