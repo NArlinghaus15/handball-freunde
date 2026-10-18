@@ -39,15 +39,22 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 <article class="team-card"><div class="team-code">M 2</div><h3>SpVgg Mössingen Männer 2</h3><p>Bezirksoberliga · Aktive</p><a class="source-link" href="https://www.him-spvgg.de/aktive/mannschaft-m2-2026-27" target="_blank" rel="noopener">Mannschaft & Berichte ↗</a></article>
 <article class="team-card"><div class="team-code">M 3</div><h3>SpVgg Mössingen Männer 3</h3><p>Bezirksliga · Aktive</p><a class="source-link" href="https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27" target="_blank" rel="noopener">Mannschaft & Berichte ↗</a></article>
 <article class="team-card"><div class="team-code">A-JUGEND</div><h3>JSG Balingen-Weilstetten</h3><p>Jugendbundesliga · 1. Liga Süd</p><a class="source-link" href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Spielplan & Tabelle ↗</a></article></div></section>
-<section class="section" id="tabellen"><div class="section-head"><div><h2>Aktuelle Tabellen & Team-Bilanz</h2><p class="section-desc">Saison 2026/27 · nach den bis 18.10.2026 veröffentlichten Ergebnissen.</p></div></div>
-<p class="section-desc">Die Tabellen unten zeigen die berechnete Zwischenbilanz eurer vier Mannschaften aus den bisher eingetragenen Spielen. Das ist nicht die komplette Rangliste aller Ligateams. Über den Link jeder Mannschaft gelangst du zur offiziellen Seite für die vollständige Liga-Tabelle.</p>
-<div style="overflow-x:auto"><table><thead><tr><th>Mannschaft</th><th>Sp.</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Diff.</th><th>Punkte</th><th>Offizielle Tabelle</th></tr></thead><tbody>
-<tr><td><span class="team-pill m1-pill">Männer 1</span></td><td>4</td><td>2</td><td>0</td><td>2</td><td>109:99</td><td>+10</td><td>4:4</td><td><a href="https://www.him-spvgg.de/aktive/mannschaft-m1-2026-27" target="_blank" rel="noopener">HIM ↗</a></td></tr>
-<tr><td><span class="team-pill m2-pill">Männer 2</span></td><td>3</td><td>3</td><td>0</td><td>0</td><td>79:70</td><td>+9</td><td>6:0</td><td><a href="https://www.him-spvgg.de/aktive/mannschaft-m2-2026-27" target="_blank" rel="noopener">HIM ↗</a></td></tr>
-<tr><td><span class="team-pill m3-pill">Männer 3</span></td><td>3</td><td>2</td><td>1</td><td>0</td><td>106:87</td><td>+19</td><td>5:1</td><td><a href="https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27" target="_blank" rel="noopener">HIM ↗</a></td></tr>
-<tr><td><span class="team-pill a-pill">A-Jugend</span></td><td>5</td><td>2</td><td>0</td><td>3</td><td>145:164</td><td>−19</td><td>4:6</td><td><a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Handball.net ↗</a></td></tr>
-</tbody></table></div>
-<p class="section-desc" style="margin-top:12px">Berechnet aus den oben aufgelisteten Spielergebnissen. Die offiziellen Gesamt-Ranglisten der jeweiligen Ligen werden nicht vollständig in die Seite eingebettet, da die Quellen sie nicht zuverlässig als frei abrufbare Tabellen bereitstellen. Die eigene Bilanz wird bei neu geprüften Ergebnissen aktualisiert.</p></section>
+<section class="section" id="tabellen"><div class="section-head"><div><h2>Tabellen & Gegner</h2><p class="section-desc">Saison 2026/27 · Mannschaftsbilanzen und alle bisher eingetragenen Gegner auf einen Blick.</p></div></div>
+<div class="rank-controls" role="group" aria-label="Mannschaft für Tabellenansicht auswählen">
+<button class="rank-filter standings-filter active" data-league="m1" type="button">Männer 1</button>
+<button class="rank-filter standings-filter" data-league="m2" type="button">Männer 2</button>
+<button class="rank-filter standings-filter" data-league="m3" type="button">Männer 3</button>
+<button class="rank-filter standings-filter" data-league="a" type="button">A-Jugend</button>
+</div>
+<div style="overflow-x:auto"><table id="standings-table"><thead><tr><th>Team / Gegner</th><th>Sp.</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Diff.</th><th>Punkte</th></tr></thead><tbody id="standings-body"></tbody></table></div>
+<p class="section-desc" id="standings-note" style="margin-top:12px"></p>
+<p class="section-desc">Die Bilanz eurer Mannschaft wird aus den erfassten Saisonergebnissen berechnet. Für Gegner zeigt die Tabelle die bestätigten direkten Duelle; deren komplette Ligabilanz und Platzierung wird nur ergänzt, wenn eine aktuelle offizielle Gesamttabelle zuverlässig verfügbar ist. Keine Gegner-Punkte oder Tabellenplätze werden geschätzt.</p>
+<div class="sources" style="margin-top:12px">
+<div class="source-box"><strong>Männer 1</strong><a href="https://www.him-spvgg.de/aktive/mannschaft-m1-2026-27" target="_blank" rel="noopener">Offizielle HIM-Seite ↗</a></div>
+<div class="source-box"><strong>Männer 2</strong><a href="https://www.him-spvgg.de/aktive/mannschaft-m2-2026-27" target="_blank" rel="noopener">Offizielle HIM-Seite ↗</a></div>
+<div class="source-box"><strong>Männer 3</strong><a href="https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27" target="_blank" rel="noopener">Offizielle HIM-Seite ↗</a></div>
+<div class="source-box"><strong>A-Jugend</strong><a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Offizielle Handball.net-Seite ↗</a></div>
+</div></section>
 <section class="section" id="rankings"><div class="section-head"><div><h2>Freunde-Rankings</h2><p class="section-desc">Wechsle zwischen Toren, Zeitstrafen und Karten. Der höchste bestätigte Wert steht jeweils oben. Spieler mit mehreren Teams bleiben in einer Zeile; Teamwerte sind farblich markiert.</p></div></div>
 <div class="rank-controls" role="group" aria-label="Statistik auswählen">
 <button class="rank-filter active" data-stat="goals" type="button">⚽ Tore</button>
@@ -106,6 +113,27 @@ function sortRankings(stat){
 }
 document.querySelectorAll(".rank-filter").forEach(b=>b.addEventListener("click",()=>sortRankings(b.dataset.stat)));
 sortRankings("goals");
+
+const standingsData={
+m1:{name:"Männer 1",played:4,w:2,d:0,l:2,for:109,against:99,points:"4:4",url:"https://www.him-spvgg.de/aktive/mannschaft-m1-2026-27",opponents:[
+["TSF Ditzingen",26,23],["VfL Pfullingen 2",27,24],["TV Spaichingen",25,28],["HSC Radolfzell",31,24]]},
+m2:{name:"Männer 2",played:3,w:3,d:0,l:0,for:79,against:70,points:"6:0",url:"https://www.him-spvgg.de/aktive/mannschaft-m2-2026-27",opponents:[
+["TV 1861 Rottenburg",24,23],["HWB Winterlingen-Bitz",29,25],["TV Aixheim",26,22]]},
+m3:{name:"Männer 3",played:3,w:2,d:1,l:0,for:106,against:87,points:"5:1",url:"https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27",opponents:[
+["TV Weilstetten 3",38,22],["SG Dunningen/Schramberg 2",30,30],["HSG Albstadt 3",38,35]]},
+a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:145,against:164,points:"4:6",url:"https://www.handball.net/team/86821",opponents:[
+["Frisch Auf Göppingen",20,30],["JANO Filder",33,35],["HC Erlangen",36,35],["DJK SF Budenheim",30,40],["HSG Dutenhofen/Münchholzhausen",26,24]]}
+};
+function showStandings(key){
+ const d=standingsData[key],body=document.getElementById("standings-body"),diff=d.for-d.against;
+ const rows=[`<tr><td><strong>${d.name}</strong> <span class="team-pill ${key}-pill">${key==="a"?"A-Jugend":key.toUpperCase()}</span></td><td>${d.played}</td><td>${d.w}</td><td>${d.d}</td><td>${d.l}</td><td>${d.for}:${d.against}</td><td>${diff>0?"+":""}${diff}</td><td>${d.points}</td></tr>`];
+ d.opponents.forEach(o=>{const ownGoals=key==="a"?o[1]:o[1],oppGoals=o[2];const won=ownGoals>oppGoals,draw=ownGoals===oppGoals;rows.push(`<tr><td>${o[0]} <span class="rank-team">· direktes Duell</span></td><td>1</td><td>${won?1:0}</td><td>${draw?1:0}</td><td>${won||draw?0:1}</td><td>${ownGoals}:${oppGoals}</td><td>${ownGoals-oppGoals>0?"+":""}${ownGoals-oppGoals}</td><td>${won?"2":draw?"1":"0"}: ${won||draw?"0":"2"}</td></tr>`);});
+ body.innerHTML=rows.join("");
+ document.getElementById("standings-note").textContent="Die erste Zeile zeigt die Gesamtbilanz von "+d.name+". Die weiteren Zeilen zeigen nur das bisherige direkte Duell mit jedem Gegner, nicht dessen gesamte Liga-Bilanz. Vollständige Platzierungen der übrigen Ligateams werden ergänzt, sobald die aktuelle offizielle Tabelle zuverlässig abrufbar ist.";
+ document.querySelectorAll(".standings-filter").forEach(b=>b.classList.toggle("active",b.dataset.league===key));
+}
+document.querySelectorAll(".standings-filter").forEach(b=>b.addEventListener("click",()=>showStandings(b.dataset.league)));
+showStandings("m1");
 </script>
 </body>
 </html>
