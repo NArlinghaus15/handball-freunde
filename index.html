@@ -85,6 +85,7 @@ const matches=[
 {team:"m1",week:"KW 39",home:"SpVgg Mössingen",away:"VfL Pfullingen 2",hs:27,as:24,url:"https://www.him-spvgg.de/spielberichte/maenner-1-spielberichte/spielbericht-m1-kw-39-2026-27"},
 {team:"m1",week:"KW 40",home:"SpVgg Mössingen",away:"TV Spaichingen",hs:25,as:28,url:"https://www.him-spvgg.de/spielberichte/maenner-1-spielberichte/spielbericht-m1-kw-40-2026-27"},
 {team:"m1",week:"KW 41",home:"HSC Radolfzell",away:"SpVgg Mössingen",hs:24,as:31,url:"https://www.him-spvgg.de/spielberichte/maenner-1-spielberichte/spielbericht-m1-kw-41-2026-27"},
+{team:"m1",week:"17.10.2026",home:"TSV Betzingen",away:"SpVgg Mössingen",hs:22,as:33,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146"},
 {team:"m2",week:"KW 38",home:"SpVgg Mössingen 2",away:"TV 1861 Rottenburg",hs:24,as:23,url:"https://www.him-spvgg.de/spielberichte/maenner-2-spielberichte/spielbericht-m2-kw-38-2026-27"},
 {team:"m2",week:"KW 39",home:"HWB Winterlingen-Bitz",away:"SpVgg Mössingen 2",hs:25,as:29,url:"https://www.him-spvgg.de/spielberichte/maenner-2-spielberichte/spielbericht-m2-kw-39-2026-27"},
 {team:"m2",week:"KW 40",home:"TV Aixheim",away:"SpVgg Mössingen 2",hs:22,as:26,url:"https://www.him-spvgg.de/spielberichte/maenner-2-spielberichte/spielbericht-m2-kw-40-2026-27"},
@@ -118,8 +119,8 @@ document.querySelectorAll(".rank-filter").forEach(b=>b.addEventListener("click",
 sortRankings("goals");
 
 const standingsData={
-m1:{name:"Männer 1",played:4,w:2,d:0,l:2,for:109,against:99,points:"4:4",url:"https://www.him-spvgg.de/aktive/mannschaft-m1-2026-27",opponents:[
-["TSF Ditzingen",26,23],["VfL Pfullingen 2",27,24],["TV Spaichingen",25,28],["HSC Radolfzell",31,24]]},
+m1:{name:"Männer 1",played:5,w:3,d:0,l:2,for:142,against:121,points:"6:4",url:"https://www.him-spvgg.de/aktive/mannschaft-m1-2026-27",opponents:[
+["TSF Ditzingen",26,23],["VfL Pfullingen 2",27,24],["TV Spaichingen",25,28],["HSC Radolfzell",31,24],["TSV Betzingen",33,22]]},
 m2:{name:"Männer 2",played:3,w:3,d:0,l:0,for:79,against:70,points:"6:0",url:"https://www.him-spvgg.de/aktive/mannschaft-m2-2026-27",opponents:[
 ["TV 1861 Rottenburg",24,23],["HWB Winterlingen-Bitz",29,25],["TV Aixheim",26,22]]},
 m3:{name:"Männer 3",played:3,w:2,d:1,l:0,for:106,against:87,points:"5:1",url:"https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27",opponents:[
@@ -127,7 +128,7 @@ m3:{name:"Männer 3",played:3,w:2,d:1,l:0,for:106,against:87,points:"5:1",url:"h
 a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:145,against:164,points:"4:6",url:"https://www.handball.net/team/86821",opponents:[
 ["Frisch Auf Göppingen",20,30],["JANO Filder",33,35],["HC Erlangen",36,35],["DJK SF Budenheim",30,40],["HSG Dutenhofen/Münchholzhausen",26,24]]}
 };
-const handball4allLeagues={m1:{org:216,id:161146}};
+const handball4allLeagues={m1:{org:216,id:161146,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146"},m2:{org:216,id:162686,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&wId=2026-10-05&lId=162686"},m3:{org:216,id:162696,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=162696"}};
 async function showStandings(key){
  const d=standingsData[key],body=document.getElementById("standings-body"),note=document.getElementById("standings-note");
  const heading=document.getElementById("standings-heading");
@@ -145,10 +146,10 @@ async function showStandings(key){
    if(!response.ok) throw new Error("HTTP "+response.status);
    const payload=await response.json();
    const root=Array.isArray(payload)?payload[0]:payload;
-   const candidates=root?.content?.score||root?.dataList||root?.content?.dataList||root?.teams;
+   const candidates=root?.content?.score||payload?.[0]?.content?.score||root?.dataList||root?.content?.dataList||root?.teams;
    if(!Array.isArray(candidates)||!candidates.length) throw new Error("Tabellenformat nicht erkannt");
    const rows=candidates.map((team,index)=>{
-    const rank=team.tabScore??team.rank??index+1;
+    const rank=team.tabScore??team.rank??team.position??index+1;
     const name=team.tabTeamname??team.teamname??team.name??"Unbekannte Mannschaft";
     const played=team.numPlayedGames??team.played??"–",won=team.numWonGames??team.won??"–",draw=team.numEqualGames??team.draw??"–",lost=team.numLostGames??team.lost??"–";
     const gf=team.numGoalsShot??team.goalsFor??"–",ga=team.numGoalsGot??team.goalsAgainst??"–";
@@ -157,11 +158,11 @@ async function showStandings(key){
     return `<tr${highlight?' class="highlight-row"':""}><td>${rank}</td><td><strong>${name}</strong>${highlight?' <span class="rank-team">· eure Mannschaft</span>':""}</td><td>${played}</td><td>${won}</td><td>${draw}</td><td>${lost}</td><td>${gf}:${ga}</td><td>${Number.isFinite(diff)?(diff>0?"+":"")+diff:"–"}</td><td>${points}</td></tr>`;
    });
    body.innerHTML=rows.join("");
-   note.innerHTML='Live-Tabelle geladen. <a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Offizielle Ligaseite öffnen ↗</a>';
+   note.innerHTML='Live-Tabelle geladen. <a href="'+league.url+'" target="_blank" rel="noopener">Offizielle Ligaseite öffnen ↗</a>';
   }catch(error){
    console.warn("Handball4all-Tabelle konnte nicht geladen werden:",error);
    body.innerHTML='<tr><td colspan="9">Die Live-Tabelle konnte nicht geladen werden. Bitte die offizielle Ligaseite öffnen.</td></tr>';
-   note.innerHTML='<a href="https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146" target="_blank" rel="noopener">Offizielle Tabelle bei Handball4all öffnen ↗</a>';
+   note.innerHTML='<a href="'+league.url+'" target="_blank" rel="noopener">Offizielle Tabelle bei Handball4all öffnen ↗</a>';
   }
  }else{
   body.innerHTML='<tr><td colspan="9">Die offizielle vollständige Tabelle dieser Liga ist noch nicht automatisch angebunden. Unten findest du die bisher bestätigte Mannschaftsbilanz; die gegnerischen Tabellenplätze werden nicht geschätzt.</td></tr>';
