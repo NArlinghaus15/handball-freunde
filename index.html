@@ -130,6 +130,8 @@ sortRankings("goals");
 
 
 const upcomingFixtures=[
+{team:"m1",date:"24.10.2026",time:"19:30",home:"TSV Betzingen",away:"SpVgg Mössingen",venue:"Sporthalle Betzingen",url:"https://www.him-spvgg.de/spielberichte/maenner-1-spielberichte/spielbericht-m1-kw-41-2026-27"},
+{team:"m3",date:"24.10.2026",time:"20:00",home:"TSV Burladingen",away:"SpVgg Mössingen 3",venue:"Sporthalle Burladingen",url:"https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27"},
 {team:"a",date:"24.10.2026",time:"18:00",home:"Rhein-Neckar Löwen",away:"JSG Balingen-Weilstetten",venue:"Trainingshalle",url:"https://www.handball.net/team/86821"},
 {team:"a",date:"14.11.2026",time:"14:00",home:"JSG Balingen-Weilstetten",away:"TSV Bayer Dormagen",venue:"Mey Generalbau Arena",url:"https://www.handball.net/team/86821"},
 {team:"a",date:"22.11.2026",time:"15:30",home:"JSG Balingen-Weilstetten",away:"VfL Gummersbach",venue:"Mey Generalbau Arena",url:"https://www.handball.net/team/86821"},
@@ -141,17 +143,12 @@ const upcomingFixtures=[
 {team:"a",date:"06.02.2027",time:"15:00",home:"HSG Dutenhofen/Münchholzhausen",away:"JSG Balingen-Weilstetten",venue:"Sporthalle Dutenhofen",url:"https://www.handball.net/team/86821"},
 {team:"a",date:"13.02.2027",time:"14:00",home:"JSG Balingen-Weilstetten",away:"Rhein-Neckar Löwen",venue:"Mey Generalbau Arena",url:"https://www.handball.net/team/86821"}
 ];
-const teamScheduleLinks={
-m1:{label:"Männer 1",url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146",note:"Offiziellen Spielplan mit Terminen und Hallen öffnen"},
-m2:{label:"Männer 2",url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=162686",note:"Offiziellen Spielplan mit Terminen und Hallen öffnen"},
-m3:{label:"Männer 3",url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=162696",note:"Offiziellen Spielplan mit Terminen und Hallen öffnen"}
-};
 function renderUpcoming(filter="all"){
  const host=document.getElementById("upcoming-list");
  const fixtures=upcomingFixtures.filter(x=>(filter==="all"||x.team===filter)&&new Date(x.date.split(".").reverse().join("-"))>=new Date("2026-10-19T00:00:00"));
- const cards=fixtures.map(x=>'<article class="game"><div class="game-top"><span>'+x.date+' · '+x.time+' Uhr</span><span class="team-tag">A-Jugend</span></div><div class="fixture"><div class="sides"><div>'+x.home+'</div><div>'+x.away+'</div></div></div><div class="game-bottom"><span class="result">'+x.venue+'</span><a class="report" href="'+x.url+'" target="_blank" rel="noopener">Offizielle Spielseite ↗</a></div></article>');
- const active=Object.entries(teamScheduleLinks).filter(([key])=>filter==="all"||filter===key).map(([key,x])=>'<article class="game"><div class="game-top"><span>Termine der Saison</span><span class="team-tag">'+x.label+'</span></div><div class="sides"><div>Alle kommenden Begegnungen</div><div>'+x.note+'</div></div><div class="game-bottom"><span class="result">Offizieller Spielplan</span><a class="report" href="'+x.url+'" target="_blank" rel="noopener">Spielplan öffnen ↗</a></div></article>');
- host.innerHTML=[...active,...cards].join("")||'<div class="empty">Für diesen Filter sind aktuell keine kommenden Partien hinterlegt.</div>';
+ const cards=fixtures.map(x=>'<article class="game"><div class="game-top"><span>'+x.date+' · '+x.time+' Uhr</span><span class="team-tag">'+teams[x.team]+'</span></div><div class="fixture"><div class="sides"><div>'+x.home+'</div><div>'+x.away+'</div></div></div><div class="game-bottom"><span class="result">'+x.venue+'</span><a class="report" href="'+x.url+'" target="_blank" rel="noopener">Offizielle Spielseite ↗</a></div></article>');
+ const noFixture=filter==="m2" ? '<div class="empty"><strong>Für Männer 2 ist noch kein kommender Termin sicher eingetragen.</strong>Ich trage hier nur Datum, Anwurfzeit und Halle ein, die sich in einer offiziellen Quelle bestätigen lassen.</div>' : '';
+ host.innerHTML=cards.join("")||noFixture||'<div class="empty">Für diesen Filter sind aktuell keine kommenden Partien hinterlegt.</div>';
 }
 document.querySelectorAll(".upcoming-filter").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".upcoming-filter").forEach(x=>x.classList.toggle("active",x===b));renderUpcoming(b.dataset.upcoming);}));
 renderUpcoming();
