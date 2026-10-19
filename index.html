@@ -30,7 +30,7 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 <div class="wrap">
 <header class="topbar"><div class="brand"><div class="ball">🏐</div><div>HANDBALL<span style="color:var(--accent)">·</span>FREUNDE</div></div><div class="season">SAISON 2026 / 27</div></header>
 <nav aria-label="Hauptnavigation"><a href="#start">Übersicht</a><a href="#spiele">Spiele & Ergebnisse</a><a href="#teams">Mannschaften</a><a href="#tabellen">Tabellen</a><a href="#rankings">Freunde-Rankings</a><a href="#quellen">Quellen</a></nav>
-<section class="hero" id="start"><div class="hero-main"><div class="eyebrow">Eure Saison. Eure Teams.</div><h1>Handball im Blick.<br><span style="color:var(--accent)">Freunde im Wettbewerb.</span></h1><p>Ergebnisse, Spielberichte und Mannschaften der SpVgg Mössingen und der JSG Balingen-Weilstetten – gesammelt an einem Ort.</p></div><div class="hero-side"><div><div class="side-label">DATENSTAND</div><div class="side-big">18. Oktober 2026</div><div class="side-meta"><span class="status-dot"></span>Manuell geprüfte Ergebnisse</div></div><div><div class="side-label">IM FOKUS</div><div class="side-big">4 Mannschaften</div><div class="side-meta">Männer 1 · Männer 2 · Männer 3 · A-Jugend</div></div></div></section>
+<section class="hero" id="start"><div class="hero-main"><div class="eyebrow">Eure Saison. Eure Teams.</div><h1>Handball im Blick.<br><span style="color:var(--accent)">Freunde im Wettbewerb.</span></h1><p>Ergebnisse, Spielberichte und Mannschaften der SpVgg Mössingen und der JSG Balingen-Weilstetten – gesammelt an einem Ort.</p></div><div class="hero-side"><div><div class="side-label">DATENSTAND</div><div class="side-big">19. Oktober 2026</div><div class="side-meta"><span class="status-dot"></span>Manuell geprüfte Ergebnisse</div></div><div><div class="side-label">IM FOKUS</div><div class="side-big">4 Mannschaften</div><div class="side-meta">Männer 1 · Männer 2 · Männer 3 · A-Jugend</div></div></div></section>
 <div class="notice"><strong>Hinweis zur Aktualität:</strong> Diese Version enthält die unten verlinkten, geprüften Ergebnisse. Sie aktualisiert sich noch nicht automatisch. Tabellen, Ligaspiele anderer Teams und vollständige Torschützen-/Karten-Rankings werden erst angezeigt, wenn sie zuverlässig aus offiziellen Quellen übernommen werden können.</div>
 <section class="metrics"><div class="metric"><div class="metric-label">Mannschaften</div><div class="metric-val">04</div><div class="metric-foot">Zwei Wettbewerbsbereiche</div></div><div class="metric"><div class="metric-label">Ergebnisse eingetragen</div><div class="metric-val">15</div><div class="metric-foot">Saison 2026/27 bis 18.10.</div></div><div class="metric"><div class="metric-label">Offizielle Quellen</div><div class="metric-val">02</div><div class="metric-foot">HIM 1904 & handball.net</div></div><div class="metric"><div class="metric-label">Spielerzuordnungen</div><div class="metric-val">7</div><div class="metric-foot">Mehrfachzuordnungen möglich</div></div></section>
 <section class="section" id="spiele"><div class="section-head"><div><h2>Spiele & Ergebnisse</h2><p class="section-desc">Filtere nach Mannschaft. Ein Link führt zur offiziellen Quelle.</p></div><div class="filters" id="filters"><button class="filter active" data-filter="all">Alle</button><button class="filter" data-filter="m1">Männer 1</button><button class="filter" data-filter="m2">Männer 2</button><button class="filter" data-filter="m3">Männer 3</button><button class="filter" data-filter="a">A-Jugend</button></div></div><div class="games" id="games"></div></section>
@@ -125,7 +125,7 @@ m2:{name:"Männer 2",played:3,w:3,d:0,l:0,for:79,against:70,points:"6:0",url:"ht
 ["TV 1861 Rottenburg",24,23],["HWB Winterlingen-Bitz",29,25],["TV Aixheim",26,22]]},
 m3:{name:"Männer 3",played:3,w:2,d:1,l:0,for:106,against:87,points:"5:1",url:"https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27",opponents:[
 ["TV Weilstetten 3",38,22],["SG Dunningen/Schramberg 2",30,30],["HSG Albstadt 3",38,35]]},
-a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:145,against:164,points:"4:6",url:"https://www.handball.net/team/86821",opponents:[
+a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:145,against:164,points:"4:6",url:"https://www.handball.net/ligen/9518?phaseId=14032&season_id=2627",opponents:[
 ["Frisch Auf Göppingen",20,30],["JANO Filder",33,35],["HC Erlangen",36,35],["DJK SF Budenheim",30,40],["HSG Dutenhofen/Münchholzhausen",26,24]]}
 };
 const handball4allLeagues={m1:{org:216,id:161146,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146"},m2:{org:216,id:162686,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&wId=2026-10-05&lId=162686"},m3:{org:216,id:162696,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=162696"}};
@@ -139,7 +139,7 @@ async function showStandings(key){
  note.textContent="Quelle: offizieller Ergebnisdienst";
  const league=handball4allLeagues[key];
  if(league){
-  const today=new Date().toISOString().slice(0,10);
+  const now=new Date();const today=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
   const apiUrl=`https://spo.handball4all.de/service/if_g_json.php?ca=0&cl=${league.id}&cmd=ps&do=${today}&og=${league.org}`;
   try{
    const response=await fetch(apiUrl,{headers:{Accept:"application/json"}});
@@ -148,14 +148,17 @@ async function showStandings(key){
    const root=Array.isArray(payload)?payload[0]:payload;
    const candidates=root?.content?.score||payload?.[0]?.content?.score||root?.dataList||root?.content?.dataList||root?.teams;
    if(!Array.isArray(candidates)||!candidates.length) throw new Error("Tabellenformat nicht erkannt");
-   const rows=candidates.map((team,index)=>{
-    const rank=team.tabScore||team.rank||team.position||index+1;
-    const name=team.tabTeamname??team.teamname??team.name??"Unbekannte Mannschaft";
-    const played=team.numPlayedGames??team.played??"–",won=team.numWonGames??team.won??"–",draw=team.numEqualGames??team.draw??"–",lost=team.numLostGames??team.lost??"–";
-    const gf=team.numGoalsShot??team.goalsFor??"–",ga=team.numGoalsGot??team.goalsAgainst??"–";
-    const diff=Number(gf)-Number(ga),points=team.pointsPlus!=null&&team.pointsMinus!=null?`${team.pointsPlus}:${team.pointsMinus}`:(team.points??"–");
-    const highlight=/spvgg mössingen/i.test(name);
-    return `<tr${highlight?' class="highlight-row"':""}><td>${rank}</td><td><strong>${name}</strong>${highlight?' <span class="rank-team">· eure Mannschaft</span>':""}</td><td>${played}</td><td>${won}</td><td>${draw}</td><td>${lost}</td><td>${gf}:${ga}</td><td>${Number.isFinite(diff)?(diff>0?"+":"")+diff:"–"}</td><td>${points}</td></tr>`;
+   const parsed=candidates.map((team,index)=>{
+    const name=String(team.tabTeamname??team.teamname??team.name??"").trim();
+    const played=team.numPlayedGames??team.played,won=team.numWonGames??team.won,draw=team.numEqualGames??team.draw,lost=team.numLostGames??team.lost;
+    const gf=team.numGoalsShot??team.goalsFor,ga=team.numGoalsGot??team.goalsAgainst,rankValue=team.tabScore??team.rank??team.position;
+    return {rank:Number.isFinite(Number(rankValue))&&Number(rankValue)>0?Number(rankValue):index+1,name,played:Number(played),won:Number(won),draw:Number(draw),lost:Number(lost),gf:Number(gf),ga:Number(ga),points:team.pointsPlus!=null&&team.pointsMinus!=null?`${team.pointsPlus}:${team.pointsMinus}`:(team.points??"–"),valid:name.length>0&&[played,won,draw,lost,gf,ga].every(v=>v!==null&&v!==undefined&&Number.isFinite(Number(v)))};
+   });
+   if(!parsed.length||parsed.some(team=>!team.valid)) throw new Error("Tabellendaten unvollständig");
+   const rows=parsed.map(team=>{
+    const {rank,name,played,won,draw,lost,gf,ga,points}=team;
+    const diff=gf-ga,highlight=/spvgg mössingen/i.test(name);
+    return `<tr${highlight?' class="highlight-row"':""}><td>${rank}</td><td><strong>${name}</strong>${highlight?' <span class="rank-team">· eure Mannschaft</span>':""}</td><td>${played}</td><td>${won}</td><td>${draw}</td><td>${lost}</td><td>${gf}:${ga}</td><td>${diff>0?"+":""}${diff}</td><td>${points}</td></tr>`;
    });
    body.innerHTML=rows.join("");
    note.innerHTML='Live-Tabelle geladen. <a href="'+league.url+'" target="_blank" rel="noopener">Offizielle Ligaseite öffnen ↗</a>';
