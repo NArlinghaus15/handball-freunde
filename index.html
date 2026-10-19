@@ -47,7 +47,8 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 <button class="rank-filter standings-filter" data-league="a" type="button">A-Jugend</button>
 </div>
 <div class="standings-block"><h3 id="standings-heading">Offizielle Ligatabelle · Männer 1</h3><p class="section-desc">Die Tabellenansicht versucht zuerst, die offiziellen Daten aus Handball4all zu laden.</p>
-<div style="overflow-x:auto"><table id="standings-table"><thead><tr><th>Pl.</th><th>Mannschaft</th><th>Sp.</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Diff.</th><th>Punkte</th></tr></thead><tbody id="standings-body"></tbody></table></div>
+<div id="standings-table-wrap" style="overflow-x:auto"><table id="standings-table"><thead><tr><th>Pl.</th><th>Mannschaft</th><th>Sp.</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Diff.</th><th>Punkte</th></tr></thead><tbody id="standings-body"></tbody></table></div>
+<div id="a-standings-embed" style="display:none;margin-top:12px"><iframe title="Offizielle Tabelle der A-Jugend 1. Liga Süd" src="https://www.handball.net/team/86821" loading="lazy" style="width:100%;height:780px;border:1px solid var(--line);border-radius:12px;background:var(--surface)"></iframe><p class="section-desc">Falls Handball.net die Einbettung blockiert, <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">öffne die offizielle Teamseite in einem neuen Tab ↗</a> und wähle dort „Tabelle“.</p></div>
 <p class="section-desc" id="standings-note" style="margin-top:12px"></p></div>
 <div class="standings-block" style="margin-top:18px"><h3>Bisherige Ergebnisse im direkten Vergleich</h3><p class="section-desc">Diese Übersicht ist bewusst getrennt von der Ligatabelle: Sie zeigt nur die Begegnungen der ausgewählten Mannschaft und ist keine Rangliste der Gegner.</p>
 <div style="overflow-x:auto"><table id="duels-table"><thead><tr><th>Gegner</th><th>Ergebnis</th><th>Bilanz</th></tr></thead><tbody id="duels-body"></tbody></table></div></div>
@@ -133,6 +134,8 @@ async function showStandings(key){
  const d=standingsData[key],body=document.getElementById("standings-body"),note=document.getElementById("standings-note");
  const heading=document.getElementById("standings-heading");
  const duels=document.getElementById("duels-body");
+ const tableWrap=document.getElementById("standings-table-wrap"),aEmbed=document.getElementById("a-standings-embed");
+ tableWrap.style.display=key==="a"?"none":"block";aEmbed.style.display=key==="a"?"block":"none";
  heading.textContent="Offizielle Ligatabelle · "+d.name;
  document.querySelectorAll(".standings-filter").forEach(b=>b.classList.toggle("active",b.dataset.league===key));
  body.innerHTML='<tr><td colspan="9">Offizielle Tabelle wird geladen …</td></tr>';
@@ -168,8 +171,8 @@ async function showStandings(key){
    note.innerHTML='<a href="'+league.url+'" target="_blank" rel="noopener">Offizielle Tabelle bei Handball4all öffnen ↗</a>';
   }
  }else if(key==="a"){
-  body.innerHTML='<tr><td colspan="9">Die richtige 1. Liga Süd ist über die offizielle JSG-Teamseite erreichbar. Eine vollständige Tabelle wird hier erst angezeigt, wenn die aktuellen Tabellenwerte zuverlässig aus der offiziellen Quelle ausgelesen werden können. <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Offizielle JSG-Tabelle öffnen ↗</a></td></tr>';
-  note.innerHTML='<a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">JSG Balingen-Weilstetten · 1. Liga Süd ↗</a>';
+  body.innerHTML="";
+  note.innerHTML='Offizielle Quelle eingeblendet: Jugendbundesliga A-Jugend männlich · 1. Liga Süd. <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Direkt bei Handball.net öffnen ↗</a>';
  }else{
   body.innerHTML='<tr><td colspan="9">Die Live-Tabelle konnte nicht zuverlässig gelesen werden. Bitte die offizielle Ligaseite öffnen.</td></tr>';
   note.innerHTML='<a href="'+d.url+'" target="_blank" rel="noopener">Offizielle Ligaseite öffnen ↗</a>';
