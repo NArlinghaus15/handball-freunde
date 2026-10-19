@@ -110,9 +110,9 @@ function sortRankings(stat){
   if(av<0&&bv<0)return a.cells[1].textContent.localeCompare(b.cells[1].textContent,"de");
   if(av<0)return 1;if(bv<0)return -1;return bv-av||a.cells[1].textContent.localeCompare(b.cells[1].textContent,"de");
  });
- rows.forEach((row,i)=>{body.appendChild(row);row.querySelector(".rank-position").textContent=Number(row.dataset[stat])<0?"–":String(i+1);row.querySelector(".rank-value").textContent=Number(row.dataset[stat])<0?"–":(stat==="goals"&&row.cells[1].textContent==="Manuel"?"4+":row.dataset[stat]);row.querySelector(".rank-value").classList.toggle("best",Number(row.dataset[stat])>=0&&i===0);});
+ rows.forEach((row,i)=>{body.appendChild(row);row.querySelector(".rank-position").textContent=Number(row.dataset[stat])<0?"–":String(i+1);row.querySelector(".rank-value").textContent=Number(row.dataset[stat])<0?"In Prüfung":(stat==="goals"&&row.cells[1].textContent==="Manuel"?"4+":row.dataset[stat]);row.querySelector(".rank-value").classList.toggle("best",Number(row.dataset[stat])>=0&&i===0);});
  document.getElementById("rank-value-heading").textContent=statLabels[stat];
- document.getElementById("rank-note").textContent=stat==="goals"?"Tore aus den bisher zuverlässig auswertbaren Spielberichten. Manuel: mindestens 4 bestätigte Tore für Männer 3 (KW 38). Elias: 3 bestätigte Tore für Männer 2 (KW 39 und KW 40). Florian: 1 bestätigtes Tor für Männer 1 (KW 39). Für die übrigen Team-/Spieler-Kombinationen ist in den ausgewerteten aktuellen Berichten kein sicherer Gesamtwert belegbar.":stat==="two"?"Nachweisbare 2-Minuten-Strafen. Ein Strich bedeutet: noch nicht verlässlich bestätigt.":"Karten (gelb/rot) aus verlässlich auswertbaren Spielberichten. Ein Strich bedeutet: noch nicht verlässlich bestätigt.";
+ document.getElementById("rank-note").textContent="Rangliste wird neu abgeglichen. Die Werte werden erst wieder angezeigt, wenn die vollständigen Saisonwerte für diese Spieler aus offiziellen Spielberichten bestätigt sind.";
  document.querySelectorAll(".rank-filter").forEach(b=>b.classList.toggle("active",b.dataset.stat===stat));
 }
 document.querySelectorAll(".rank-filter").forEach(b=>b.addEventListener("click",()=>sortRankings(b.dataset.stat)));
