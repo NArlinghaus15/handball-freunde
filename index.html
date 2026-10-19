@@ -48,7 +48,7 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 </div>
 <div class="standings-block"><h3 id="standings-heading">Offizielle Ligatabelle · Männer 1</h3><p class="section-desc">Die Tabellenansicht versucht zuerst, die offiziellen Daten aus Handball4all zu laden.</p>
 <div id="standings-table-wrap" style="overflow-x:auto"><table id="standings-table"><thead><tr><th>Pl.</th><th>Mannschaft</th><th>Sp.</th><th>S</th><th>U</th><th>N</th><th>Tore</th><th>Diff.</th><th>Punkte</th></tr></thead><tbody id="standings-body"></tbody></table></div>
-<div id="a-standings-embed" style="display:none;margin-top:12px"><iframe title="Offizielle Tabelle der A-Jugend 1. Liga Süd" src="https://www.handball.net/team/86821" loading="lazy" style="width:100%;height:780px;border:1px solid var(--line);border-radius:12px;background:var(--surface)"></iframe><p class="section-desc">Falls Handball.net die Einbettung blockiert, <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">öffne die offizielle Teamseite in einem neuen Tab ↗</a> und wähle dort „Tabelle“.</p></div>
+
 <p class="section-desc" id="standings-note" style="margin-top:12px"></p></div>
 <div class="standings-block" style="margin-top:18px"><h3>Bisherige Ergebnisse im direkten Vergleich</h3><p class="section-desc">Diese Übersicht ist bewusst getrennt von der Ligatabelle: Sie zeigt nur die Begegnungen der ausgewählten Mannschaft und ist keine Rangliste der Gegner.</p>
 <div style="overflow-x:auto"><table id="duels-table"><thead><tr><th>Gegner</th><th>Ergebnis</th><th>Bilanz</th></tr></thead><tbody id="duels-body"></tbody></table></div></div>
@@ -134,8 +134,8 @@ async function showStandings(key){
  const d=standingsData[key],body=document.getElementById("standings-body"),note=document.getElementById("standings-note");
  const heading=document.getElementById("standings-heading");
  const duels=document.getElementById("duels-body");
- const tableWrap=document.getElementById("standings-table-wrap"),aEmbed=document.getElementById("a-standings-embed");
- tableWrap.style.display=key==="a"?"none":"block";aEmbed.style.display=key==="a"?"block":"none";
+ const tableWrap=document.getElementById("standings-table-wrap");
+ tableWrap.style.display="block";
  heading.textContent="Offizielle Ligatabelle · "+d.name;
  document.querySelectorAll(".standings-filter").forEach(b=>b.classList.toggle("active",b.dataset.league===key));
  body.innerHTML='<tr><td colspan="9">Offizielle Tabelle wird geladen …</td></tr>';
@@ -171,8 +171,8 @@ async function showStandings(key){
    note.innerHTML='<a href="'+league.url+'" target="_blank" rel="noopener">Offizielle Tabelle bei Handball4all öffnen ↗</a>';
   }
  }else if(key==="a"){
-  body.innerHTML="";
-  note.innerHTML='Offizielle Quelle eingeblendet: Jugendbundesliga A-Jugend männlich · 1. Liga Süd. <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Direkt bei Handball.net öffnen ↗</a>';
+  body.innerHTML="<tr><td>1</td><td><strong>Frisch Auf Göppingen</strong></td><td>5</td><td>5</td><td>0</td><td>0</td><td>161:133</td><td>+28</td><td>10:0</td></tr><tr><td>2</td><td><strong>JANO Filder</strong></td><td>5</td><td>4</td><td>0</td><td>1</td><td>171:160</td><td>+11</td><td>8:2</td></tr><tr><td>3</td><td><strong>SC DHfK Leipzig</strong></td><td>5</td><td>4</td><td>0</td><td>1</td><td>181:180</td><td>+1</td><td>8:2</td></tr><tr><td>4</td><td><strong>TSV Bayer Dormagen</strong></td><td>4</td><td>3</td><td>0</td><td>1</td><td>137:121</td><td>+16</td><td>6:2</td></tr><tr class=\"highlight-row\"><td>5</td><td><strong>JSG Balingen-Weilstetten</strong> <span class=\"rank-team\">· eure Mannschaft</span></td><td>5</td><td>2</td><td>0</td><td>3</td><td>153:173</td><td>-20</td><td>4:6</td></tr><tr><td>6</td><td><strong>Rhein-Neckar Löwen</strong></td><td>4</td><td>1</td><td>0</td><td>3</td><td>147:140</td><td>+7</td><td>2:6</td></tr><tr><td>7</td><td><strong>HC Erlangen</strong></td><td>4</td><td>1</td><td>0</td><td>3</td><td>133:128</td><td>+5</td><td>2:6</td></tr><tr><td>8</td><td><strong>HSG Dutenhofen/Münchholzhausen</strong></td><td>3</td><td>1</td><td>0</td><td>2</td><td>99:99</td><td>0</td><td>2:4</td></tr><tr><td>9</td><td><strong>DJK SF Budenheim</strong></td><td>5</td><td>1</td><td>0</td><td>4</td><td>172:193</td><td>-21</td><td>2:8</td></tr><tr><td>10</td><td><strong>VfL Gummersbach</strong></td><td>4</td><td>0</td><td>0</td><td>4</td><td>116:143</td><td>-27</td><td>0:8</td></tr>";
+  note.innerHTML='Manuell aus den veröffentlichten Spielergebnissen zusammengestellt · Stand 19.10.2026. <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Offizielle Quelle prüfen ↗</a>. Die Tabelle muss nach neuen Spielen aktualisiert werden.';
  }else{
   body.innerHTML='<tr><td colspan="9">Die Live-Tabelle konnte nicht zuverlässig gelesen werden. Bitte die offizielle Ligaseite öffnen.</td></tr>';
   note.innerHTML='<a href="'+d.url+'" target="_blank" rel="noopener">Offizielle Ligaseite öffnen ↗</a>';
