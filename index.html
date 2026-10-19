@@ -29,11 +29,20 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 <body>
 <div class="wrap">
 <header class="topbar"><div class="brand"><div class="ball">🏐</div><div>HANDBALL<span style="color:var(--accent)">·</span>FREUNDE</div></div><div class="season">SAISON 2026 / 27</div></header>
-<nav aria-label="Hauptnavigation"><a href="#start">Übersicht</a><a href="#spiele">Spiele & Ergebnisse</a><a href="#teams">Mannschaften</a><a href="#tabellen">Tabellen</a><a href="#rankings">Freunde-Rankings</a><a href="#quellen">Quellen</a></nav>
+<nav aria-label="Hauptnavigation"><a href="#start">Übersicht</a><a href="#spiele">Spiele & Ergebnisse</a><a href="#kommende-spiele">Kommende Partien</a><a href="#teams">Mannschaften</a><a href="#tabellen">Tabellen</a><a href="#rankings">Freunde-Rankings</a><a href="#quellen">Quellen</a></nav>
 <section class="hero" id="start"><div class="hero-main"><div class="eyebrow">Eure Saison. Eure Teams.</div><h1>Handball im Blick.<br><span style="color:var(--accent)">Freunde im Wettbewerb.</span></h1><p>Ergebnisse, Spielberichte und Mannschaften der SpVgg Mössingen und der JSG Balingen-Weilstetten – gesammelt an einem Ort.</p></div><div class="hero-side"><div><div class="side-label">DATENSTAND</div><div class="side-big">19. Oktober 2026</div><div class="side-meta"><span class="status-dot"></span>Manuell geprüfte Ergebnisse</div></div><div><div class="side-label">IM FOKUS</div><div class="side-big">4 Mannschaften</div><div class="side-meta">Männer 1 · Männer 2 · Männer 3 · A-Jugend</div></div></div></section>
 <div class="notice"><strong>Hinweis zur Aktualität:</strong> Diese Version enthält die unten verlinkten, geprüften Ergebnisse. Sie aktualisiert sich noch nicht automatisch. Tabellen, Ligaspiele anderer Teams und vollständige Torschützen-/Karten-Rankings werden erst angezeigt, wenn sie zuverlässig aus offiziellen Quellen übernommen werden können.</div>
 <section class="metrics"><div class="metric"><div class="metric-label">Mannschaften</div><div class="metric-val">04</div><div class="metric-foot">Zwei Wettbewerbsbereiche</div></div><div class="metric"><div class="metric-label">Ergebnisse eingetragen</div><div class="metric-val">15</div><div class="metric-foot">Saison 2026/27 bis 18.10.</div></div><div class="metric"><div class="metric-label">Offizielle Quellen</div><div class="metric-val">02</div><div class="metric-foot">HIM 1904 & handball.net</div></div><div class="metric"><div class="metric-label">Spielerzuordnungen</div><div class="metric-val">7</div><div class="metric-foot">Mehrfachzuordnungen möglich</div></div></section>
 <section class="section" id="spiele"><div class="section-head"><div><h2>Spiele & Ergebnisse</h2><p class="section-desc">Filtere nach Mannschaft. Ein Link führt zur offiziellen Quelle.</p></div><div class="filters" id="filters"><button class="filter active" data-filter="all">Alle</button><button class="filter" data-filter="m1">Männer 1</button><button class="filter" data-filter="m2">Männer 2</button><button class="filter" data-filter="m3">Männer 3</button><button class="filter" data-filter="a">A-Jugend</button></div></div><div class="games" id="games"></div></section>
+<section class="section" id="kommende-spiele"><div class="section-head"><div><h2>Kommende Partien</h2><p class="section-desc">Anstehende Spiele mit Datum, Anwurfzeit und Halle. Die A-Jugend-Termine stammen aus dem offiziellen Handball.net-Spielplan; für die Aktiven führt der Link zum offiziellen Spielplan, bis alle Termine zuverlässig auslesbar sind.</p></div></div>
+<div class="rank-controls" role="group" aria-label="Kommende Spiele filtern">
+<button class="rank-filter upcoming-filter active" data-upcoming="all" type="button">Alle Teams</button>
+<button class="rank-filter upcoming-filter" data-upcoming="m1" type="button">Männer 1</button>
+<button class="rank-filter upcoming-filter" data-upcoming="m2" type="button">Männer 2</button>
+<button class="rank-filter upcoming-filter" data-upcoming="m3" type="button">Männer 3</button>
+<button class="rank-filter upcoming-filter" data-upcoming="a" type="button">A-Jugend</button>
+</div>
+<div id="upcoming-list" class="games"></div></section>
 <section class="section" id="teams"><div class="section-head"><div><h2>Unsere Mannschaften</h2><p class="section-desc">Offizielle Kader- und Berichtsseiten öffnen sich in einem neuen Tab.</p></div></div><div class="teams">
 <article class="team-card"><div class="team-code">M 1</div><h3>SpVgg Mössingen Männer 1</h3><p>Verbandsliga · Aktive</p><a class="source-link" href="https://www.him-spvgg.de/aktive/mannschaft-m1-2026-27" target="_blank" rel="noopener">Mannschaft & Berichte ↗</a></article>
 <article class="team-card"><div class="team-code">M 2</div><h3>SpVgg Mössingen Männer 2</h3><p>Bezirksoberliga · Aktive</p><a class="source-link" href="https://www.him-spvgg.de/aktive/mannschaft-m2-2026-27" target="_blank" rel="noopener">Mannschaft & Berichte ↗</a></article>
@@ -65,15 +74,15 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 <button class="rank-filter" data-stat="two" type="button">⏱ 2-Minuten</button>
 <button class="rank-filter" data-stat="cards" type="button">🟨 Karten</button>
 </div>
-<p class="section-desc" id="rank-note">Tore: vorläufig bestätigte Mindestwerte aus den ausgewerteten Spielberichten. Noch offen sind u. a. M1 gegen Spaichingen (Torschützen laut Bericht technisch nicht verfügbar), weitere Ergebnisse sowie Florian in der A-Jugend. Zwei-Minuten-Strafen und Karten bleiben offen, bis sie aus Spielprotokollen zuverlässig zugeordnet werden können.</p>
+<p class="section-desc" id="rank-note">Die Rangliste wird nur über den vollständigen Vor- und Nachnamen zugeordnet. Bis die Spielberichte einzeln gegengeprüft sind, werden keine ungesicherten Werte angezeigt. Mehrfachspieler bleiben eine Person; ihre Mannschaftszuordnung ist farblich getrennt.</p>
 <div style="overflow-x:auto"><table id="ranking-table"><thead><tr><th>Rang</th><th>Spieler</th><th>Teams</th><th id="rank-value-heading">Tore</th></tr></thead><tbody>
-<tr data-goals="1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Florian</td><td><span class="team-pill m1-pill">M1: Bericht KW 39</span><div class="rank-team"><span class="team-pill a-pill">A-Jugend: offen</span></div></td><td class="rank-value">mind. 1</td></tr>
-<tr data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Lars</td><td><span class="team-pill m1-pill">Männer 1: offen</span></td><td class="rank-value">in Prüfung</td></tr>
-<tr data-goals="4" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Manuel</td><td><span class="team-pill m2-pill">M2: kein Treffer belegt</span><div class="rank-team"><span class="team-pill m3-pill">M3: Bericht KW 38</span></div></td><td class="rank-value">mind. 4</td></tr>
-<tr data-goals="24" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Simon</td><td><span class="team-pill m2-pill">Männer 2: KW 38–40</span></td><td class="rank-value">24</td></tr>
-<tr data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Mika</td><td><span class="team-pill m2-pill">Männer 2: Einsatz offen</span></td><td class="rank-value">in Prüfung</td></tr>
-<tr data-goals="3" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Elias</td><td><span class="team-pill m2-pill">Männer 2: KW 39–40</span></td><td class="rank-value">mind. 3</td></tr>
-<tr data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Laszlo</td><td><span class="team-pill m2-pill">Männer 2: Einsatz offen</span><div class="rank-team"><span class="team-pill m3-pill">M3: offen</span></div></td><td class="rank-value">in Prüfung</td></tr>
+<tr data-fullname="Florian Müller" data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Florian</td><td><span class="team-pill m1-pill">M1: Florian Müller</span><div class="rank-team"><span class="team-pill a-pill">A-Jugend: Florian Müller</span></div></td><td class="rank-value">in Prüfung</td></tr>
+<tr data-fullname="Lars Böhringer" data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Lars</td><td><span class="team-pill m1-pill">Männer 1</span></td><td class="rank-value">in Prüfung</td></tr>
+<tr data-fullname="Manuel Matt" data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Manuel</td><td><span class="team-pill m2-pill">Männer 2</span><div class="rank-team"><span class="team-pill m3-pill">Männer 3</span></div></td><td class="rank-value">in Prüfung</td></tr>
+<tr data-fullname="Simon Müller" data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Simon</td><td><span class="team-pill m2-pill">Männer 2</span></td><td class="rank-value">in Prüfung</td></tr>
+<tr data-fullname="Mika Speidel" data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Mika</td><td><span class="team-pill m2-pill">Männer 2</span></td><td class="rank-value">in Prüfung</td></tr>
+<tr data-fullname="Elias Ezar" data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Elias</td><td><span class="team-pill m2-pill">Männer 2</span></td><td class="rank-value">in Prüfung</td></tr>
+<tr data-fullname="Laszlo Goldbeck" data-goals="-1" data-two="-1" data-cards="-1"><td class="rank-position"></td><td>Laszlo</td><td><span class="team-pill m2-pill">Männer 2</span><div class="rank-team"><span class="team-pill m3-pill">Männer 3</span></div></td><td class="rank-value">in Prüfung</td></tr>
 </tbody></table></div>
 <p class="section-desc" style="margin-top:12px">Quellen: <a href="https://www.him-spvgg.de/spielberichte/maenner-1-spielberichte" target="_blank" rel="noopener">Männer 1 Spielberichte</a> · <a href="https://www.him-spvgg.de/spielberichte/maenner-2-spielberichte" target="_blank" rel="noopener">Männer 2 Spielberichte</a> · <a href="https://www.him-spvgg.de/spielberichte/maenner-3-spielberichte" target="_blank" rel="noopener">Männer 3 Spielberichte</a> · <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">JSG A-Jugend</a>. Die bisher eingetragenen Zahlen waren keine vollständigen Saisonwerte und konnten dadurch einen falschen Eindruck vermitteln. Die Rangliste bleibt vorübergehend ohne Zahlen, bis alle relevanten Spielberichte abgeglichen sind. Karten und Zeitstrafen werden nicht geschätzt.</p></section>
 <section class="section" id="quellen"><div class="section-head"><div><h2>Offizielle Quellen</h2><p class="section-desc">Ergebnisse und Statistiken werden nicht geschätzt.</p></div></div><div class="sources"><div class="source-box"><strong>HIM 1904 · SpVgg Mössingen</strong><a href="https://www.him-spvgg.de/spielberichte" target="_blank" rel="noopener">Alle Vereins-Spielberichte ↗</a></div><div class="source-box"><strong>SpVgg · Mannschaften 2026/27</strong><a href="https://www.him-spvgg.de/aktive/" target="_blank" rel="noopener">Offizielle Mannschaftsübersicht ↗</a></div><div class="source-box"><strong>handball.net · JSG</strong><a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Spielplan, Tabelle & Statistiken ↗</a></div></div></section>
@@ -97,7 +106,7 @@ const matches=[
 {team:"a",week:"20.09.2026",home:"JANO Filder",away:"JSG Balingen-Weilstetten",hs:35,as:33,url:"https://www.handball.net/team/86821"},
 {team:"a",week:"27.09.2026",home:"JSG Balingen-Weilstetten",away:"HC Erlangen",hs:36,as:35,url:"https://www.handball.net/team/86821"},
 {team:"a",week:"11.10.2026",home:"DJK SF Budenheim",away:"JSG Balingen-Weilstetten",hs:40,as:30,url:"https://www.handball.net/team/86821"},
-{team:"a",week:"17.10.2026",home:"JSG Balingen-Weilstetten",away:"HSG Dutenhofen/Münchholzhausen",hs:26,as:24,url:"https://www.handball.net/team/86821"}
+{team:"a",week:"17.10.2026",home:"JSG Balingen-Weilstetten",away:"HSG Dutenhofen/Münchholzhausen",hs:34,as:33,url:"https://www.handball.net/team/86821"}
 ];
 function render(filter){const host=document.getElementById("games");const data=matches.filter(m=>filter==="all"||m.team===filter);host.innerHTML=data.map(m=>{const homeWin=m.hs>m.as;const draw=m.hs===m.as;const homeTeamIsTracked=(m.team==="m1"&&m.home==="SpVgg Mössingen")||(m.team==="m2"&&m.home==="SpVgg Mössingen 2")||(m.team==="m3"&&m.home==="SpVgg Mössingen 3")||(m.team==="a"&&m.home==="JSG Balingen-Weilstetten");const won=draw?false:(homeWin===homeTeamIsTracked);const result=draw?"UNENTSCHIEDEN":(won?"SIEG":"NIEDERLAGE");const klass=draw?"draw":(won?"win":"loss");return '<article class="game"><div class="game-top"><span>'+m.week+'</span><span class="team-tag">'+teams[m.team]+'</span></div><div class="fixture"><div class="sides"><div>'+m.home+'</div><div>'+m.away+'</div></div><div class="score">'+m.hs+':'+m.as+'</div></div><div class="game-bottom"><span class="result '+klass+'">'+result+'</span><a class="report" href="'+m.url+'" target="_blank" rel="noopener">Quelle öffnen ↗</a></div></article>';}).join("");}
 document.getElementById("filters").addEventListener("click",e=>{const b=e.target.closest("button[data-filter]");if(!b)return;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render(b.dataset.filter);});render("all");
@@ -111,13 +120,41 @@ function sortRankings(stat){
   if(av<0&&bv<0)return a.cells[1].textContent.localeCompare(b.cells[1].textContent,"de");
   if(av<0)return 1;if(bv<0)return -1;return bv-av||a.cells[1].textContent.localeCompare(b.cells[1].textContent,"de");
  });
- rows.forEach((row,i)=>{body.appendChild(row);row.querySelector(".rank-position").textContent=Number(row.dataset[stat])<0?"–":String(i+1);row.querySelector(".rank-value").textContent=Number(row.dataset[stat])<0?"In Prüfung":(stat==="goals"&&["Florian","Manuel","Elias"].includes(row.cells[1].textContent)?"mind. "+row.dataset[stat]:row.dataset[stat]);row.querySelector(".rank-value").classList.toggle("best",Number(row.dataset[stat])>=0&&i===0);});
+ rows.forEach((row,i)=>{body.appendChild(row);row.querySelector(".rank-position").textContent=Number(row.dataset[stat])<0?"–":String(i+1);row.querySelector(".rank-value").textContent=Number(row.dataset[stat])<0?"In Prüfung":row.dataset[stat];row.querySelector(".rank-value").classList.toggle("best",Number(row.dataset[stat])>=0&&i===0);});
  document.getElementById("rank-value-heading").textContent=statLabels[stat];
- document.getElementById("rank-note").textContent=stat==="goals"?"Vorläufige Mindestwerte aus den ausgewerteten Spielberichten; keine vollständige Saisonabrechnung. Weitere Berichte und fehlende Torschützenlisten werden ergänzt.": "Noch keine verlässliche vollständige Zuordnung aus den verfügbaren Spielberichten. Zeitstrafen und Karten werden nicht geschätzt und erst nach Prüfung offizieller Spielprotokolle eingetragen.";
+ document.getElementById("rank-note").textContent="Es zählen ausschließlich Einträge, bei denen Vor- und Nachname exakt zum Freund passen. Noch nicht vollständig verifizierte Statistiken bleiben offen; Zeitstrafen und Karten werden nicht geschätzt.";
  document.querySelectorAll(".rank-filter").forEach(b=>b.classList.toggle("active",b.dataset.stat===stat));
 }
 document.querySelectorAll(".rank-filter").forEach(b=>b.addEventListener("click",()=>sortRankings(b.dataset.stat)));
 sortRankings("goals");
+
+
+const upcomingFixtures=[
+{team:"a",date:"24.10.2026",time:"18:00",home:"Rhein-Neckar Löwen",away:"JSG Balingen-Weilstetten",venue:"Trainingshalle",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"14.11.2026",time:"14:00",home:"JSG Balingen-Weilstetten",away:"TSV Bayer Dormagen",venue:"Mey Generalbau Arena",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"22.11.2026",time:"15:30",home:"JSG Balingen-Weilstetten",away:"VfL Gummersbach",venue:"Mey Generalbau Arena",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"29.11.2026",time:"12:00",home:"SC DHfK Leipzig",away:"JSG Balingen-Weilstetten",venue:"Sporthalle Kleine Arena",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"05.12.2026",time:"19:30",home:"Frisch Auf Göppingen",away:"JSG Balingen-Weilstetten",venue:"EWS Arena",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"12.12.2026",time:"14:00",home:"JSG Balingen-Weilstetten",away:"JANO Filder",venue:"Mey Generalbau Arena",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"10.01.2027",time:"14:00",home:"HC Erlangen",away:"JSG Balingen-Weilstetten",venue:"Karl-Heinz-Hiersemann Halle",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"24.01.2027",time:"15:30",home:"JSG Balingen-Weilstetten",away:"DJK SF Budenheim",venue:"Mey Generalbau Arena",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"06.02.2027",time:"15:00",home:"HSG Dutenhofen/Münchholzhausen",away:"JSG Balingen-Weilstetten",venue:"Sporthalle Dutenhofen",url:"https://www.handball.net/team/86821"},
+{team:"a",date:"13.02.2027",time:"14:00",home:"JSG Balingen-Weilstetten",away:"Rhein-Neckar Löwen",venue:"Mey Generalbau Arena",url:"https://www.handball.net/team/86821"}
+];
+const teamScheduleLinks={
+m1:{label:"Männer 1",url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146",note:"Offiziellen Spielplan mit Terminen und Hallen öffnen"},
+m2:{label:"Männer 2",url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=162686",note:"Offiziellen Spielplan mit Terminen und Hallen öffnen"},
+m3:{label:"Männer 3",url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=162696",note:"Offiziellen Spielplan mit Terminen und Hallen öffnen"}
+};
+function renderUpcoming(filter="all"){
+ const host=document.getElementById("upcoming-list");
+ const fixtures=upcomingFixtures.filter(x=>(filter==="all"||x.team===filter)&&new Date(x.date.split(".").reverse().join("-"))>=new Date("2026-10-19T00:00:00"));
+ const cards=fixtures.map(x=>'<article class="game"><div class="game-top"><span>'+x.date+' · '+x.time+' Uhr</span><span class="team-tag">A-Jugend</span></div><div class="fixture"><div class="sides"><div>'+x.home+'</div><div>'+x.away+'</div></div></div><div class="game-bottom"><span class="result">'+x.venue+'</span><a class="report" href="'+x.url+'" target="_blank" rel="noopener">Offizielle Spielseite ↗</a></div></article>');
+ const active=Object.entries(teamScheduleLinks).filter(([key])=>filter==="all"||filter===key).map(([key,x])=>'<article class="game"><div class="game-top"><span>Termine der Saison</span><span class="team-tag">'+x.label+'</span></div><div class="sides"><div>Alle kommenden Begegnungen</div><div>'+x.note+'</div></div><div class="game-bottom"><span class="result">Offizieller Spielplan</span><a class="report" href="'+x.url+'" target="_blank" rel="noopener">Spielplan öffnen ↗</a></div></article>');
+ host.innerHTML=[...active,...cards].join("")||'<div class="empty">Für diesen Filter sind aktuell keine kommenden Partien hinterlegt.</div>';
+}
+document.querySelectorAll(".upcoming-filter").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".upcoming-filter").forEach(x=>x.classList.toggle("active",x===b));renderUpcoming(b.dataset.upcoming);}));
+renderUpcoming();
 
 const standingsData={
 m1:{name:"Männer 1",played:5,w:3,d:0,l:2,for:142,against:121,points:"6:4",url:"https://www.him-spvgg.de/aktive/mannschaft-m1-2026-27",opponents:[
@@ -126,8 +163,8 @@ m2:{name:"Männer 2",played:3,w:3,d:0,l:0,for:79,against:70,points:"6:0",url:"ht
 ["TV 1861 Rottenburg",24,23],["HWB Winterlingen-Bitz",29,25],["TV Aixheim",26,22]]},
 m3:{name:"Männer 3",played:3,w:2,d:1,l:0,for:106,against:87,points:"5:1",url:"https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27",opponents:[
 ["TV Weilstetten 3",38,22],["SG Dunningen/Schramberg 2",30,30],["HSG Albstadt 3",38,35]]},
-a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:145,against:164,points:"4:6",url:"https://www.handball.net/team/86821",opponents:[
-["Frisch Auf Göppingen",20,30],["JANO Filder",33,35],["HC Erlangen",36,35],["DJK SF Budenheim",30,40],["HSG Dutenhofen/Münchholzhausen",26,24]]}
+a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:153,against:173,points:"4:6",url:"https://www.handball.net/team/86821",opponents:[
+["Frisch Auf Göppingen",20,30],["JANO Filder",33,35],["HC Erlangen",36,35],["DJK SF Budenheim",30,40],["HSG Dutenhofen/Münchholzhausen",34,33]]}
 };
 const handball4allLeagues={m1:{org:216,id:161146,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146"},m2:{org:216,id:162686,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&wId=2026-10-05&lId=162686"},m3:{org:216,id:162696,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=162696"}};
 async function showStandings(key){
