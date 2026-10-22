@@ -217,8 +217,20 @@ async function showStandings(key){
     return {rank:Number.isFinite(Number(rankValue))&&Number(rankValue)>0?Number(rankValue):index+1,name,played:Number(played),won:Number(won),draw:Number(draw),lost:Number(lost),gf:Number(gf),ga:Number(ga),points:team.pointsPlus!=null&&team.pointsMinus!=null?`${team.pointsPlus}:${team.pointsMinus}`:(team.points??"–"),valid:name.length>0&&[played,won,draw,lost,gf,ga].every(v=>v!==null&&v!==undefined&&Number.isFinite(Number(v)))};
    });
    if(!parsed.length||parsed.some(team=>!team.valid)) throw new Error("Tabellendaten unvollständig");
-   const rows=parsed.map(team=>{
-    const {rank,name,played,won,draw,lost,gf,ga,points}=team;
+   // Tabellenplätze nach Punkten vergeben: gleiche Punktzahl = gleicher Platz.
+   // Bei Punktgleichheit wird absichtlich nicht über Tordifferenz oder Tore sortiert.
+   const pointsNumber=team=>{const match=String(team.points??"").match(/^\s*(-?\d+)/);return match?Number(match[1]):NaN;};
+   parsed.sort((a,b)=>{
+    const pa=pointsNumber(a),pb=pointsNumber(b);
+    if(Number.isFinite(pa)&&Number.isFinite(pb)&&pa!==pb) return pb-pa;
+    return a.rank-b.rank;
+   });
+   let previousPoints=null,previousRank=0;
+   const rows=parsed.map((team,index)=>{
+    const pts=pointsNumber(team);
+    const rank=Number.isFinite(pts)&&pts===previousPoints?previousRank:index+1;
+    previousPoints=pts;previousRank=rank;
+    const {name,played,won,draw,lost,gf,ga,points}=team;
     const diff=gf-ga,highlight=/spvgg mössingen/i.test(name);
     return `<tr${highlight?' class="highlight-row"':""}><td>${rank}</td><td><strong>${name}</strong>${highlight?' <span class="rank-team">· eure Mannschaft</span>':""}</td><td>${played}</td><td>${won}</td><td>${draw}</td><td>${lost}</td><td>${gf}:${ga}</td><td>${diff>0?"+":""}${diff}</td><td>${points}</td></tr>`;
    });
@@ -230,7 +242,7 @@ async function showStandings(key){
    note.innerHTML='<a href="'+league.url+'" target="_blank" rel="noopener">Offizielle Tabelle bei Handball4all öffnen ↗</a>';
   }
  }else if(key==="a"){
-  body.innerHTML="<tr><td>1</td><td><strong>Frisch Auf Göppingen</strong></td><td>5</td><td>5</td><td>0</td><td>0</td><td>161:133</td><td>+28</td><td>10:0</td></tr><tr><td>2</td><td><strong>JANO Filder</strong></td><td>5</td><td>4</td><td>0</td><td>1</td><td>171:160</td><td>+11</td><td>8:2</td></tr><tr><td>3</td><td><strong>SC DHfK Leipzig</strong></td><td>5</td><td>4</td><td>0</td><td>1</td><td>181:180</td><td>+1</td><td>8:2</td></tr><tr><td>4</td><td><strong>TSV Bayer Dormagen</strong></td><td>4</td><td>3</td><td>0</td><td>1</td><td>137:121</td><td>+16</td><td>6:2</td></tr><tr class=\"highlight-row\"><td>5</td><td><strong>JSG Balingen-Weilstetten</strong> <span class=\"rank-team\">· eure Mannschaft</span></td><td>5</td><td>2</td><td>0</td><td>3</td><td>153:173</td><td>-20</td><td>4:6</td></tr><tr><td>6</td><td><strong>Rhein-Neckar Löwen</strong></td><td>4</td><td>1</td><td>0</td><td>3</td><td>147:140</td><td>+7</td><td>2:6</td></tr><tr><td>7</td><td><strong>HC Erlangen</strong></td><td>4</td><td>1</td><td>0</td><td>3</td><td>133:128</td><td>+5</td><td>2:6</td></tr><tr><td>8</td><td><strong>HSG Dutenhofen/Münchholzhausen</strong></td><td>3</td><td>1</td><td>0</td><td>2</td><td>99:99</td><td>0</td><td>2:4</td></tr><tr><td>9</td><td><strong>DJK SF Budenheim</strong></td><td>5</td><td>1</td><td>0</td><td>4</td><td>172:193</td><td>-21</td><td>2:8</td></tr><tr><td>10</td><td><strong>VfL Gummersbach</strong></td><td>4</td><td>0</td><td>0</td><td>4</td><td>116:143</td><td>-27</td><td>0:8</td></tr>";
+  body.innerHTML="<tr><td>1</td><td><strong>Frisch Auf Göppingen</strong></td><td>5</td><td>5</td><td>0</td><td>0</td><td>161:133</td><td>+28</td><td>10:0</td></tr><tr><td>2</td><td><strong>JANO Filder</strong></td><td>5</td><td>4</td><td>0</td><td>1</td><td>171:160</td><td>+11</td><td>8:2</td></tr><tr><td>2</td><td><strong>SC DHfK Leipzig</strong></td><td>5</td><td>4</td><td>0</td><td>1</td><td>181:180</td><td>+1</td><td>8:2</td></tr><tr><td>4</td><td><strong>TSV Bayer Dormagen</strong></td><td>4</td><td>3</td><td>0</td><td>1</td><td>137:121</td><td>+16</td><td>6:2</td></tr><tr class=\"highlight-row\"><td>5</td><td><strong>JSG Balingen-Weilstetten</strong> <span class=\"rank-team\">· eure Mannschaft</span></td><td>5</td><td>2</td><td>0</td><td>3</td><td>153:173</td><td>-20</td><td>4:6</td></tr><tr><td>6</td><td><strong>Rhein-Neckar Löwen</strong></td><td>4</td><td>1</td><td>0</td><td>3</td><td>147:140</td><td>+7</td><td>2:6</td></tr><tr><td>6</td><td><strong>HC Erlangen</strong></td><td>4</td><td>1</td><td>0</td><td>3</td><td>133:128</td><td>+5</td><td>2:6</td></tr><tr><td>6</td><td><strong>HSG Dutenhofen/Münchholzhausen</strong></td><td>3</td><td>1</td><td>0</td><td>2</td><td>99:99</td><td>0</td><td>2:4</td></tr><tr><td>9</td><td><strong>DJK SF Budenheim</strong></td><td>5</td><td>1</td><td>0</td><td>4</td><td>172:193</td><td>-21</td><td>2:8</td></tr><tr><td>10</td><td><strong>VfL Gummersbach</strong></td><td>4</td><td>0</td><td>0</td><td>4</td><td>116:143</td><td>-27</td><td>0:8</td></tr>";
   note.innerHTML='Manuell aus den veröffentlichten Spielergebnissen zusammengestellt · Stand 19.10.2026. <a href="https://www.handball.net/team/86821" target="_blank" rel="noopener">Offizielle Quelle prüfen ↗</a>. Die Tabelle muss nach neuen Spielen aktualisiert werden.';
  }else{
   body.innerHTML='<tr><td colspan="9">Die Live-Tabelle konnte nicht zuverlässig gelesen werden. Bitte die offizielle Ligaseite öffnen.</td></tr>';
