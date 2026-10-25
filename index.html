@@ -77,7 +77,7 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}nav a{padding:9px 13p
 </div>
 <p class="section-desc" id="rank-note">Die Rangliste wird nur über den vollständigen Vor- und Nachnamen zugeordnet. Bis die Spielberichte einzeln gegengeprüft sind, werden keine ungesicherten Werte angezeigt. Mehrfachspieler bleiben eine Person; ihre Mannschaftszuordnung ist farblich getrennt.</p>
 <div style="overflow-x:auto"><table id="ranking-table"><thead><tr><th>Rang</th><th>Spieler</th><th>Teams</th><th id="rank-value-heading">Tore</th></tr></thead><tbody>
-<tr data-fullname="Florian Müller" data-goals="5" data-two="0" data-cards="0" data-seven="0"><td class="rank-position"></td><td>Florian</td><td><span class="team-pill m1-pill">Männer 1</span><div class="rank-team"><span class="team-pill a-pill">A-Jugend</span></div></td><td class="rank-value">1</td></tr>
+<tr data-fullname="Florian Müller" data-goals="4" data-two="0" data-cards="0" data-seven="0"><td class="rank-position"></td><td>Florian</td><td><span class="team-pill m1-pill">Männer 1</span><div class="rank-team"><span class="team-pill a-pill">A-Jugend</span></div></td><td class="rank-value">1</td></tr>
 <tr data-fullname="Lars Böhringer" data-goals="2" data-two="0" data-cards="0" data-seven="0"><td class="rank-position"></td><td>Lars</td><td><span class="team-pill m1-pill">Männer 1</span></td><td class="rank-value">2</td></tr>
 <tr data-fullname="Manuel Matt" data-goals="33" data-two="1" data-cards="1" data-seven="0"><td class="rank-position"></td><td>Manuel</td><td><span class="team-pill m2-pill">Männer 2</span><div class="rank-team"><span class="team-pill m3-pill">Männer 3</span></div></td><td class="rank-value">30</td></tr>
 <tr data-fullname="Simon Müller" data-goals="0" data-two="0" data-cards="0" data-seven="0"><td class="rank-position"></td><td>Simon</td><td><span class="team-pill m2-pill">Männer 2</span></td><td class="rank-value">0</td></tr>
@@ -215,8 +215,8 @@ m2:{name:"Männer 2",played:4,w:3,d:1,l:0,for:110,against:101,points:"7:1",url:"
 ["TV 1861 Rottenburg",24,23],["HWB Winterlingen-Bitz",29,25],["TV Aixheim",26,22],["SG AmmerGäu",31,31]]},
 m3:{name:"Männer 3",played:4,w:3,d:1,l:0,for:144,against:122,points:"7:1",url:"https://www.him-spvgg.de/aktive/mannschaft-m3-2026-27",opponents:[
 ["TV Weilstetten 3",38,22],["SG Dunningen/Schramberg 2",30,30],["HSG Albstadt 3",38,35]]},
-a:{name:"A-Jugend",played:5,w:2,d:0,l:3,for:153,against:173,points:"4:6",url:"https://www.handball.net/team/86821",opponents:[
-["Frisch Auf Göppingen",20,30],["JANO Filder",33,35],["HC Erlangen",36,35],["DJK SF Budenheim",30,40],["HSG Dutenhofen/Münchholzhausen",34,33]]}
+a:{name:"A-Jugend",played:6,w:2,d:0,l:4,for:184,against:208,points:"4:8",url:"https://www.handball.net/team/86821",opponents:[
+["Frisch Auf Göppingen",20,30],["JANO Filder",33,35],["HC Erlangen",36,35],["DJK SF Budenheim",30,40],["HSG Dutenhofen/Münchholzhausen",34,33],["Rhein-Neckar Löwen",31,35]]}
 };
 const handball4allLeagues={m1:{org:216,id:161146,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=161146"},m2:{org:216,id:162686,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&wId=2026-10-05&lId=162686"},m3:{org:216,id:162696,url:"https://www.handball4all.de/home/portal/baden-wuerttembergischer-hv#/league?ogId=216&lId=162696"}};
 async function showStandings(key){
